@@ -33,6 +33,7 @@
 			<version>${jbehave.web.selenium.version}</version>
 		</dependency>
 		<dependency>
+			<!-- needed for jbehave eclipse plugin -->
 			<groupId>de.codecentric</groupId>
 			<artifactId>jbehave-junit-runner</artifactId>
 			<version>1.1.2</version>
@@ -42,6 +43,7 @@
 	<build>
 		<resources>
 			<resource>
+				<!-- location of jbehave stories -->
 				<directory>${basedir}/src/main/resources</directory>
 				<filtering>false</filtering>
 			</resource>
@@ -57,6 +59,7 @@
 				</configuration>
 			</plugin>
 				<plugin>
+					<!-- needed to run acceptance tests via maven and not only via eclipse -->
 					<groupId>org.jbehave</groupId>
 					<artifactId>jbehave-maven-plugin</artifactId>
 					<version>${jbehave.version}</version>

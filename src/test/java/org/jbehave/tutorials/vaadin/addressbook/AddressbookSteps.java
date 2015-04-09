@@ -4,6 +4,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.jbehave.core.annotations.AfterStories;
+import org.jbehave.core.annotations.BeforeStories;
 import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
@@ -13,18 +14,25 @@ import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.google.common.base.Predicate;
 
+/**
+ * Main steps class which
+ * <ul>
+ * <li>handles the webdriver</li>
+ * <li>provides wait for vaadin method</li>
+ * <li>contains the steps used in the story file</li>
+ * </ul>
+ * 
+ * @author Tobias Gänzler
+ *
+ */
 public class AddressbookSteps {
 
 	private WebDriver webDriver;
-
-	public AddressbookSteps(WebDriver webDriver) {
-		super();
-		this.webDriver = webDriver;
-	}
 
 	@Given("The addressbook is opened")
 	public void openAddressBook() {
@@ -53,6 +61,10 @@ public class AddressbookSteps {
 
 	}
 
+	/**
+	 * Wait until vaadins ajax calls are completed. Some javascript is used to detect active vaadin clients (similar to
+	 * VaadinTouchkit).
+	 */
 	public void waitForVaadin() {
 		try {
 			new WebDriverWait(webDriver, 5).until(vaadinIsReady());
@@ -83,6 +95,11 @@ public class AddressbookSteps {
 				}
 			}
 		};
+	}
+
+	@BeforeStories
+	public void beforeStories() {
+		this.webDriver = new FirefoxDriver();
 	}
 
 	@AfterStories

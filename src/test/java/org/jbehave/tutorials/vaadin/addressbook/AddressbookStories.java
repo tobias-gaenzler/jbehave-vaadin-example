@@ -14,19 +14,19 @@ import org.jbehave.core.reporters.StoryReporterBuilder;
 import org.jbehave.core.steps.InjectableStepsFactory;
 import org.jbehave.core.steps.InstanceStepsFactory;
 import org.junit.runner.RunWith;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
 
 import de.codecentric.jbehave.junit.monitoring.JUnitReportingRunner;
 
+/**
+ * The acceptance test execution starts here. Configuration, steps factory and story paths are defined.
+ * 
+ * @author Tobias Gänzler
+ */
 @RunWith(JUnitReportingRunner.class)
 public class AddressbookStories extends JUnitStories {
 
-	private WebDriver webDriver;
-
 	public AddressbookStories() {
 		super();
-		webDriver = new FirefoxDriver();
 	}
 
 	@Override
@@ -34,17 +34,20 @@ public class AddressbookStories extends JUnitStories {
 		Configuration configuration = new MostUsefulConfiguration()//
 				.useStoryReporterBuilder(//
 				new StoryReporterBuilder()//
+						// create html report
 						.withFormats(Format.HTML));
 		return configuration;
 	}
 
 	@Override
 	public InjectableStepsFactory stepsFactory() {
-		return new InstanceStepsFactory(configuration(), new AddressbookSteps(webDriver));
+		// simplest form of a steps factory
+		return new InstanceStepsFactory(configuration(), new AddressbookSteps());
 	}
 
 	@Override
 	protected List<String> storyPaths() {
+		// include all stories found in classpath
 		return new StoryFinder()
 				.findPaths(codeLocationFromClass(this.getClass()).getFile(), asList("**/*.story"), null);
 	}
